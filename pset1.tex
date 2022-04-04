@@ -1,0 +1,144 @@
+%%%%%%%%%%%%%%%%%%%%%%
+% Preamble %%%%%%%%%%%
+\input{preamble.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Main Document %%%%%%
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Document header %%%%
+{\LARGE \centering COURSE NUM -- Problem Set 1\par}
+{\vspace{-1em} \large \centering YOUR NAME \par}
+{\centering \vspace{-1em} \today \par }
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Problem 1 %%%%%%%%%%
+\section{}
+This document is a simple \LaTeX template for university problem sets. Below are some example resources that may be useful -- but delete away if they are not! 
+
+When referring to outside resources, I recommend using the \texttt{biblio.bib} file, where references can be stored in bibtex.\footnote{Bibtex citations are are readily available via the ``cite as'' tab on Google Scholar, but it is important to check them: occasionally they are completely incorrect!} In-text and parenthetical citations can then be called with simple commands like this:
+\begin{itemize}
+    \item In-text citation: \citet{wickham2019advanced}
+    \item Parenthetical citation: \citep{ceder2018quick}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Problem 2 %%%%%%%%%%
+\newpage
+\section{}
+
+This section provides some simple math expressions using Example 2.21 from \citet{wasserman2003all}.
+
+Let $(X, Y)$ be random variables with density 
+\begin{align}\label{pset1:eq_density}
+    f(x, y) = \begin{cases} % Cases are used for the curly bracket
+        x + y, & \quad \text{if } x, y \in [0, 1] \\
+        0, & \quad \text{otherwise.}
+    \end{cases}
+\end{align}
+
+To verify that \eqref{pset1:eq_density} is a density, note that
+\begin{align}
+    \begin{aligned} % aligned assures that there is a single equation number associated with this derivation
+        \int_{-\infty}^\infty\int_{-\infty}^\infty f(x, y) dxdy & = \int_0^1\int_0^1 (x + y) dxdy \\
+        & = \int_0^1\left(\int_0^1 x dx\right)dy + \int_0^1\left(\int_0^1 y dy\right)dx \\
+        & = \int_0^1\frac{1}{2}dy + \int_0^1\frac{1}{2}dx \\
+        & = \frac{1}{2} + \frac{1}{2}\\
+        & = 1,
+    \end{aligned}
+\end{align}
+which is the desired result.
+
+\href{https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols}{\underline{This website}} is a great resource for math symbols (e.g., Greek letters such as $\alpha, \Sigma$ or $\varepsilon$).
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Problem 3 %%%%%%%%%%
+\newpage
+\section{}
+
+This section contains a simple table for presenting, for example, summary statistics or regression results. Table \ref{pset1:tab_estres} provides (entirely made-up) results of linear regression (Panel A) and two-stage least squares (Panel B) on the returns to education. 
+
+\begin{table}[!htbp] \small 
+  \centering 
+  \begin{threeparttable}
+  \caption{Estimation Results}\label{pset1:tab_estres}
+\begin{tabular}{llcc} \toprule \midrule 
+      &       & Employed & $\log$-Income  \\ 
+      &       & (1) & (2) \\ \midrule
+\multicolumn{3}{l}{\textit{Panel A:  OLS}} \\
+      & High School & 0.262 & 0.290 \\
+      &       & (0.063) & (0.120) \\
+      & College Degree & 0.345 & 0.400\\
+      &       & (0.087) & (0.091) \\
+      &       &          & \\
+\multicolumn{3}{l}{\textit{Panel B:  TSLS}} \\
+      & High School & 0.0797 & 0.22 \\
+      &       & (0.0281) & (0.045) \\
+      & College Degree & 0.121 & 0.321\\
+      &       & (0.030) & (0.123) \\
+      &       &          & \\
+      &  Observations & 320 & 282 \\ \midrule \bottomrule
+\end{tabular}%
+  \begin{tablenotes}[para,flushleft]
+  \footnotesize \item \textit{Notes.} Table notes go here.
+  \end{tablenotes}
+    \end{threeparttable}
+\end{table}
+
+There are many tools for generating \LaTeX \ tables, from simple websites (e.g., \href{https://www.tablesgenerator.com/}{\underline{tablesgenerator.com}}) to packages for your favorite programming language (e.g., \href{https://cran.r-project.org/web/packages/xtable/index.html}{\underline{\texttt{xtable}}}). To get started, I recommend using the excel-plug in \href{https://ctan.org/thttps://cran.r-project.org/web/packages/xtable/index.htmlex-archive/support/excel2latex?lang=en}{\underline{\texttt{excel2latex}}}. 
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Problem 4 %%%%%%%%%%
+\newpage
+\section{}
+
+This section contains a simple figure with two panels.
+
+\begin{figure}[!htbp]
+    \centering
+    \caption{Pictures of Pets}
+     \begin{subfigure}[b]{0.285\textwidth}
+     \centering
+     \includegraphics[width=\textwidth]{Figures/pset1/dog.jpeg}
+     \caption{A dog}
+     \end{subfigure} \hspace{1em}
+     \begin{subfigure}[b]{0.4\textwidth}
+     \centering
+     \includegraphics[width=\textwidth]{Figures/pset1/cat.jpeg}
+     \caption{A cat}
+     \end{subfigure} 
+     \vskip0.7em
+\begin{minipage}{1\textwidth} 
+{\footnotesize \begin{spacing}{1} \textit{Notes.} Figure notes would go here.\end{spacing}} 
+\end{minipage}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%
+% References %%%%%%%%%
+\newpage
+\interlinepenalty=10000
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{apalike}
+\bibliography{biblio}
+\interlinepenalty=10
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Appendix %%%%%%%%%%%
+\newpage
+\appendix
+
+\section{Code}
+
+This appendix contains the code used for the analysis. 
+
+\begin{lstlisting}[language=R, basicstyle=\footnotesize\ttfamily]
+# Insert code here (if applicable).
+x <- FALSE
+if (x) {
+    make_a_joke()
+}#IF
+\end{lstlisting}
+
+
+\end{document}
