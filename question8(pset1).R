@@ -5,6 +5,7 @@ mu <- 0
 sigma <- 1
 x <- rnorm (n , mu , sigma)
 
+#answer to part a
 ggplot() + aes(x)+ geom_histogram(binwidth=.2, colour="black", fill="gray")
 
 
@@ -16,5 +17,5 @@ max_y <- 1
 y <- runif (n , min_y , max_y)
 
 # Plot a histogram of the draws using ggplot2
-
+#answer to part b
 ggplot() + aes(y)+ geom_histogram(binwidth=.1, colour="black", fill="gray")
