@@ -1,0 +1,65 @@
+---
+title: "PSET3"
+author: "Aziz Goziev"
+date: '2022-05-06'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Load the ak91.csv data
+df<-read.csv ("ak91.csv" )
+n<-nrow(df)
+
+# Store years of education and the weekly wage in separate variables
+yrs_educ <- df$YRS_EDUC
+wkly_wage <- df$WKLY_WAGE
+
+```
+
+#Question 6a.)
+```{r}
+beta <- cov(wkly_wage, yrs_educ) / var(yrs_educ)
+alpha <- mean (wkly_wage) - mean (yrs_educ) * beta
+beta
+alpha
+```
+
+#Question 6b.)
+29.6224=alpha
+61.19=beta
+
+An additional year of education is associated with an approximately $61.19 increase in weekly wages.
+
+#Question 6c.) 
+```{r}
+blp_yx=alpha+16*beta
+blp_yx
+```
+The result does differ from 5b in pset 2 because our estimate is an approximation to the CEF function.
+
+#Question 6d.)
+```{r}
+blp_yx=alpha+beta*yrs_educ
+epsilon<- wkly_wage - blp_yx
+se_numer <- sqrt(mean(epsilon^2 * (yrs_educ - mean(yrs_educ))^2))
+se <- (se_numer/var(yrs_educ))/sqrt(n)
+se
+```
+
+#Question 6e.)
+```{r}
+t_statistic<-(beta-31)/se
+t_statistic
+```
+#Question 6f.)
+```{r}
+p_value<-pnorm(t_statistic)
+p_value
+```
+
+#Question 6g.)
+Yes we reject the null hypothesis at the 10% significance level. This means at the 10% significance level there is evidence that the approx expected change in weekly wages due to an associated unit change in number of years of education is not $31.
