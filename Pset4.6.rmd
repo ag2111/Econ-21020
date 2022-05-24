@@ -1,0 +1,166 @@
+---
+title: "Pset4"
+author: "Aziz Goziev"
+date: '2022-05-22'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Load the bw06.csv data
+dat<-read.csv("C:/Users/azizg/Downloads/College/3rd Year/2022 Spring Quarter/Econometrics/Datasets/bw06.csv")
+dat<-as.matrix(dat)
+```
+
+```{r}
+# Select variables
+y <- dat[, "birthweight"]
+w <- dat[, "cigsdaily"]
+x <- cbind(1, dat[, c("boy", "age", "highschool", "somecollege", "college")])
+x_tld <- dat[,"married"]
+
+```
+
+Part A 
+```{r}
+beta_w <- cov(y, w) / var(w)
+alpha <- mean (y) - mean (w) * beta_w
+beta_w
+alpha
+```
+The beta here represents the approximate expected change in birth weight associated with an additional cigarette smoked per day by the child's mother.
+
+Part B
+```{r}
+x<-cbind(x,w)
+xx_inv<-solve(t(x) %*% x)
+yx<- t(x) %*% y
+beta_yx<-xx_inv %*% yx
+beta_yx[length(beta_yx)]
+```
+This beta here represents the approximate expected change in birth weight associated with an additional cigarette a day controlling for gender, education, and age.
+
+Part C
+
+
+Yes, our estimates differ. This is due to the second beta being controlled for other factors that explain the variation in the outcome factors.
+
+Part D
+
+They are wrong because we haven't made an identifying assumption in this estimation that can warrant causality, this is merely an association between two variables.
+
+Part E
+
+
+Common support states suppX=suppX|W, which means for every set of observables there are individuals at every level of W=w'.
+
+Selection on observables assumes W is independent of U|X, which in this context means that weight of the baby is independent of all other unobservables and only depend on observables.
+
+In this study, I don't think SO assumption is plausible as there are many other factors, such as genetic traits that aren't accounted for in our model.
+
+Part F
+```{r}
+w<-dat[,"cigsdaily"]
+x<-cbind(1,dat[,c("boy", "age", "highschool","somecollege", "college")])
+
+X<-cbind(x,w)
+
+all_true<-function(list){
+  for(x in 1:length(list)){
+    if(!list[x]){
+      return(list[x])
+    }
+  }
+  return(TRUE)
+}
+
+dupes<-X[duplicated(X),]
+matches<-dupes[1,]
+count<-0
+for(row in 1:nrow(dupes)){
+  if(all_true(dupes[1,-ncol(dupes)]==dupes[row,-ncol(dupes)]) & (count==1)){
+    matches<-rbind(matches, dupes[row,])
+  }
+  else{
+    if(count!=1){
+      count<-1
+    }
+  }
+}
+```
+
+```{r}
+print(nrow(matches))
+```
+Num. of observations with same x as obs. 1 is 156.
+
+```{r}
+print(length(unique(w)))
+```
+Num. of total unique w.
+
+```{r}
+print(nrow(unique(matches)))
+```
+Unique values of w for same x.
+
+Common support can't be verified for given x as there values of w that aren't covered in the sample. 
+
+
+Q7.
+Part A
+```{r}
+my_coef<- function(y, X){
+  xx_inv<- solve(t(X) %*% X)
+  yx<-t(X) %*% y
+  beta<- xx_inv %*% yx
+  return(beta)
+}
+my_coef<-my_coef(y,X)
+my_coef
+```
+
+Part B
+```{r}
+my_blp<-function(coef, x){
+  blp_xy <- x %*% coef
+  return(blp_xy)
+}
+
+mean(y-my_blp(coef, X))
+```
+Part C
+```{r}
+my_se <- function(coef, y, X){
+  num<-nrow(X)
+  epsilon<-c(y - blp(coef, X))
+  xx_inv<-solve(t(X) %*% X)
+  xx_eps<-t(X*epsilon) %*% (X*epsilon)
+  sig<-(xx_inv %*% xx_eps %*% xx_inv)*n
+  se<-sqrt(diag(sig))/sqrt(num)
+}
+
+se<-my_se(coef, y, X)
+se
+
+```
+
+
+Part D
+```{r}
+my_teststat <- function(beta, se){
+  t<-abs(beta/se)
+  p<-2*(1-pnorm(t))
+  return(list(t,p))
+}
+my_teststat(coef, se)
+```
+
+Part E
+```{r}
+
+```
+
